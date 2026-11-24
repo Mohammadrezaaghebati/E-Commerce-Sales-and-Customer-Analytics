@@ -117,3 +117,26 @@ GROUP BY
 ORDER BY 
     total_revenue DESC;
 -- Result: Customer '0a0a9211...' is the top VIP with 13,440 in total revenue.
+
+-- =========================================================
+-- Section 5: Geographical Sales Analysis
+-- =========================================================
+
+-- 5.1 Find the top 10 highest-grossing customer cities
+-- Objective: Identify key geographical markets for localized marketing and warehouse placement.
+SELECT TOP 10
+    customers.customer_city,
+    SUM(items.price) AS total_revenue
+FROM 
+    dbo.olist_orders_dataset AS orders
+INNER JOIN
+    dbo.olist_order_items_dataset AS items
+    ON orders.order_id = items.order_id
+INNER JOIN
+    dbo.olist_customers_dataset AS customers
+    ON orders.customer_id = customers.customer_id
+GROUP BY 
+    customers.customer_city
+ORDER BY 
+    total_revenue DESC;
+-- Result: Sao Paulo is the leading market with ~1.91M in revenue, followed by Rio de Janeiro.
