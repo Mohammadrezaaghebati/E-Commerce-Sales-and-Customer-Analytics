@@ -94,3 +94,26 @@ GROUP BY
 ORDER BY 
     total_revenue DESC;
 -- Result: 'health_beauty' is the most profitable category.
+
+-- =========================================================
+-- Section 4: Customer Analysis (VIPs & Lifetime Value)
+-- =========================================================
+
+-- 4.1 Find the top 10 VIP customers by total lifetime value (LTV)
+-- Objective: Identify the highest-spending unique customers for loyalty programs.
+SELECT TOP 10
+    customers.customer_unique_id,
+    SUM(items.price) AS total_revenue
+FROM 
+    dbo.olist_order_items_dataset AS items
+INNER JOIN 
+    dbo.olist_orders_dataset AS orders
+    ON items.order_id = orders.order_id
+INNER JOIN 
+    dbo.olist_customers_dataset AS customers
+    ON orders.customer_id = customers.customer_id
+GROUP BY 
+    customers.customer_unique_id
+ORDER BY 
+    total_revenue DESC;
+-- Result: Customer '0a0a9211...' is the top VIP with 13,440 in total revenue.
