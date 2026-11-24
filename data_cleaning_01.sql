@@ -126,3 +126,29 @@ FROM
 WHERE 
     order_estimated_delivery_date < order_delivered_customer_date;
 -- Result: 7,827 orders were delivered later than estimated (approx 8% of total delivered orders).
+
+-- =========================================================
+-- Section 7: Impact of Logistics on Customer Satisfaction
+-- =========================================================
+
+-- 7.1 Calculate average review score based on delivery performance
+-- Objective: Quantify how late deliveries negatively impact customer satisfaction (Advanced EDA).
+SELECT 
+    CASE 
+        WHEN order_delivered_customer_date > order_estimated_delivery_date THEN 'Late'
+        ELSE 'On Time'
+    END AS delivery_status,
+    AVG(CAST(review_score AS FLOAT)) AS average_score
+FROM 
+    dbo.olist_orders_dataset AS orders
+INNER JOIN 
+    dbo.olist_order_reviews_dataset AS reviews
+    ON orders.order_id = reviews.order_id
+WHERE 
+    order_delivered_customer_date IS NOT NULL
+GROUP BY 
+    CASE 
+        WHEN order_delivered_customer_date > order_estimated_delivery_date THEN 'Late'
+        ELSE 'On Time'
+    END;
+-- Result: On-time deliveries average 4.29 stars, while late deliveries drop significantly to 2.56 stars.
