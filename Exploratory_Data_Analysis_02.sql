@@ -140,3 +140,20 @@ GROUP BY
 ORDER BY 
     total_revenue DESC;
 -- Result: Sao Paulo is the leading market with ~1.91M in revenue, followed by Rio de Janeiro.
+
+-- =========================================================
+-- Section 6: Payment Method Analysis
+-- =========================================================
+
+-- 6.1 Analyze the popularity of different payment methods
+-- Objective: Understand customer payment preferences to optimize checkout gateways and financial partnerships.
+SELECT
+    payment_type,
+    COUNT(*) AS total_transactions
+FROM 
+    dbo.olist_order_payments_dataset
+GROUP BY 
+    payment_type
+ORDER BY 
+    total_transactions DESC;
+-- Result: Credit card is the dominant method (~76k transactions), followed heavily by Boleto (~19k).
