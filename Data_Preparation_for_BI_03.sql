@@ -36,9 +36,14 @@ SELECT
     items.freight_value,
     customers.customer_unique_id,
     customers.customer_city,
-    customers.customer_state
+    customers.customer_state,
+    translation.column2 AS product_category_english
 FROM vw_delivered_orders_clean AS orders
 INNER JOIN dbo.olist_order_items_dataset AS items
     ON items.order_id = orders.order_id
 INNER JOIN dbo.olist_customers_dataset AS customers
-    ON customers.customer_id = orders.customer_id;
+    ON customers.customer_id = orders.customer_id
+LEFT JOIN dbo.olist_products_dataset AS products
+    ON items.product_id = products.product_id
+LEFT JOIN dbo.product_category_name_translation AS translation
+    ON products.product_category_name = translation.column1;
