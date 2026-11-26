@@ -31,6 +31,7 @@ SELECT
     orders.order_status,
     orders.order_purchase_timestamp,
     orders.order_delivered_customer_date,
+    orders.order_estimated_delivery_date, -- update to make new column in Power BI
     items.product_id,
     items.price,
     items.freight_value,
